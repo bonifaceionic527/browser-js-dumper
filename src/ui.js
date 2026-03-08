@@ -1,5 +1,15 @@
 const tooltip = document.getElementById("tooltip");
 
+function detectBrowser() {
+  const ua = navigator.userAgent;
+  if (/Edg\//.test(ua))     return "Edge "    + (ua.match(/Edg\/([\d]+)/)     || ["","?"])[1];
+  if (/OPR\//.test(ua))     return "Opera "   + (ua.match(/OPR\/([\d]+)/)     || ["","?"])[1];
+  if (/Chrome\//.test(ua))  return "Chrome "  + (ua.match(/Chrome\/([\d]+)/)  || ["","?"])[1];
+  if (/Firefox\//.test(ua)) return "Firefox " + (ua.match(/Firefox\/([\d]+)/) || ["","?"])[1];
+  if (/Safari\//.test(ua))  return "Safari "  + (ua.match(/Version\/([\d]+)/) || ["","?"])[1];
+  return "Browser";
+}
+
 function ttRow(label, valHtml) {
   return '<div class="tt-row"><span class="tt-label">' + label + '</span>' + valHtml + '</div>';
 }
@@ -66,6 +76,8 @@ document.addEventListener("mousemove", e => {
 
 document.addEventListener("mouseleave", () => { tooltip.style.display = "none"; });
 
+envLabelA.textContent = detectBrowser();
+
 let syncing = false;
 colA.addEventListener("scroll", () => { if (!syncing) { syncing=true; colB.scrollTop=colA.scrollTop; syncing=false; } });
 colB.addEventListener("scroll", () => { if (!syncing) { syncing=true; colA.scrollTop=colB.scrollTop; syncing=false; } });
@@ -95,23 +107,47 @@ scanBtn.onclick = async function() {
 };
 
 exportBtn.onclick = function() {
-  const blob = new Blob([JSON.stringify(Object.fromEntries(curMap), null, 2)], { type: "application/json" });
+  if (!curMap || curMap.size === 0) return;
+  const data = {
+    __meta__: { browser: detectBrowser(), ua: navigator.userAgent, ts: Date.now() },
+    ...Object.fromEntries(curMap),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const a    = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  const ua   = navigator.userAgent.match(/Chrome\/([\d.]+)/);
-  a.download = "env-" + (ua ? "chrome"+ua[1].split(".")[0] : "browser") + "-" + Date.now() + ".json";
+  a.href     = URL.createObjectURL(blob);
+  a.download = "env-" + detectBrowser().toLowerCase().replace(/\s+/, "-") + "-" + Date.now() + ".json";
   a.click();
 };
 
+function normalizeEntry(v) {
+  if (v?.type === "number") {
+    const n = parseFloat(v.display);
+    return { ...v, type: Number.isInteger(n) ? "integer" : "float" };
+  }
+  return v;
+}
+
 function loadImport(text) {
   try {
-    impMap = new Map(Object.entries(JSON.parse(text)));
+    const raw  = JSON.parse(text);
+    const meta = raw.__meta__;
+    impMap = new Map(
+      Object.entries(raw)
+        .filter(([k]) => k !== "__meta__")
+        .map(([k, v]) => [k, normalizeEntry(v)])
+    );
     cmpCache = null;
     badgeB.textContent      = impMap.size.toLocaleString() + " keys";
     importDrop.textContent  = "✓ " + impMap.size.toLocaleString() + " keys";
     importDrop.classList.add("has-data");
-    if (curMap) compareBtn.disabled = false;
-    if (cmpMode) render();
+    envLabelB.textContent   = meta?.browser ?? "Imported environment";
+    if (curMap) {
+      compareBtn.disabled = false;
+      cmpMode = true;
+      compareBtn.classList.add("active");
+      compareBtn.textContent = "✕ Exit compare";
+    }
+    render();
   } catch(e) { alert("Bad JSON: " + e.message); }
 }
 

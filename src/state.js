@@ -20,7 +20,9 @@ const badgeA     = document.getElementById("badge-a");
 const badgeB     = document.getElementById("badge-b");
 const colA       = document.getElementById("col-a");
 const colB       = document.getElementById("col-b");
-const sidebarList= document.getElementById("sidebar-list");
+const sidebarList  = document.getElementById("sidebar-list");
+const envLabelA    = document.getElementById("env-label-a");
+const envLabelB    = document.getElementById("env-label-b");
 
 const plEl    = document.getElementById("panel-loading");
 const plLabel = document.getElementById("pl-label");
